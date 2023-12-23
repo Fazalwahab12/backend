@@ -146,13 +146,7 @@ export class PackagesService {
   // }
   async getAllUserPackages(userId: string): Promise<UserPackage[]> {
     try {
-      console.log("In get all user packages service");
-      console.log("userId",userId);
-      
       const userPackages = await this.userPackageModel.find({ userId }).exec();
-      
-      console.log("userPackages", userPackages);
-      
       return userPackages;
     } catch (error) {
       throw new Error('Error in getAllUserPackages service: ' + error.message);

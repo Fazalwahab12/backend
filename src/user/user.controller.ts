@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Res, Body, HttpStatus, Get, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 
@@ -29,7 +29,6 @@ export class UserController {
   ) {
     try {
       const jwt = await this.userService.login(userInfo);
-
       return response.status(HttpStatus.OK).json({
         token: jwt,
       });
@@ -41,4 +40,24 @@ export class UserController {
       });
     }
   }
+
+  @Get('/refral_balabce')
+  async refralBal(@Res() response, @Req() req) {
+    try {
+      const id = req.id;
+      const refralBal = await this.userService.getRefralBal(id);
+
+      return response.status(HttpStatus.OK).json({
+        userRefralBal: refralBal,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error: In getting user refral balance !',
+        error: 'Bad Request',
+      });
+    }
+  }
 }
+
+
